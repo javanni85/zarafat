@@ -128,6 +128,19 @@
             width: fit-content;
             margin-bottom: 24px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            /* Добавлено для кликабельности */
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .pill-badge:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .pill-badge:active {
+            transform: scale(0.96);
         }
 
         .pill-dot {
@@ -434,7 +447,7 @@
             
             <!-- Левая часть: Инфо -->
             <section class="content-side">
-                <div class="pill-badge" href="index.html">
+                <div class="pill-badge">
                     <span class="pill-dot"></span>
                     Live Humor Engine v2.0
                 </div>
@@ -1022,6 +1035,20 @@
         const toast = document.getElementById('toast');
         let isAnimating = false;
 
+        // --- ЛОГИКА ПЕРЕХОДА ---
+        
+        // Переход по клику на pill-badge (Live Humor Engine v2.0)
+        document.querySelector('.pill-badge').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+
+        // (Оставил и старый переход по карточке, если он еще нужен, но добавил badge выше)
+        document.querySelector('.reactor-card').addEventListener('click', function(e) {
+            if (e.target.closest('.btn')) return;
+            // Если нужно, чтобы карточка ТОЖЕ вела на index.html, раскомментируйте:
+            // window.location.href = 'index.html';
+        });
+
         function generateJoke() {
             if (isAnimating) return;
             isAnimating = true;
@@ -1079,5 +1106,4 @@
         });
     </script>
 </body>
-
 </html>
