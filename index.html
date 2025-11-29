@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ha-Ha Hub — Главная</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg1: #050816;
+      --bg2: #0f172a;
+      --accent: #f97316;
+      --accent-soft: rgba(249, 115, 22, 0.18);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --glass: rgba(15, 23, 42, 0.72);
+      --border-glass: rgba(148, 163, 184, 0.25);
+      --shadow-soft: 0 24px 60px rgba(15, 23, 42, 0.9);
+      --radius-xl: 24px;
+      --radius-pill: 999px;
+      --transition-fast: 0.22s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at 0% 0%, #1e293b 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, #0f766e 0, transparent 55%),
+        radial-gradient(circle at 100% 0%, #7c2d12 0, transparent 45%),
+        linear-gradient(145deg, var(--bg1), var(--bg2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1120px;
+      backdrop-filter: blur(26px);
+      background: radial-gradient(circle at 0 0, rgba(249, 250, 251, 0.03), transparent 55%),
+                  radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.08), transparent 55%),
+                  var(--glass);
+      border-radius: 32px;
+      border: 1px solid var(--border-glass);
+      box-shadow: var(--shadow-soft);
+      padding: 24px 24px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Декорированные круги */
+    .orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(20px);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .orb--top {
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.7), transparent 60%);
+      top: -80px;
+      left: -40px;
+    }
+
+    .orb--bottom {
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.7), transparent 60%);
+      bottom: -110px;
+      right: -60px;
+    }
+
+    header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 16px;
+      background:
+        conic-gradient(from 220deg, #f97316, #fb7185, #22d3ee, #4ade80, #f97316);
+      padding: 2px;
+      position: relative;
+    }
+
+    .brand-logo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background: radial-gradient(circle at 20% 0, #0f172a, #020617);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f97316;
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: 0.03em;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-title {
+      font-weight: 600;
+      font-size: 17px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chip {
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 6px 14px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: stretch;
+      padding: 10px 4px 8px;
+    }
+
+    @media (max-width: 800px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 14px 0 4px;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: var(--radius-pill);
+      padding: 4px 10px 4px 4px;
+      background: radial-gradient(circle at 0 0, rgba(248, 250, 252, 0.08), transparent 70%);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 12px;
+      color: var(--text-muted);
+      max-width: max-content;
+    }
+
+    .hero-badge-pill {
+      border-radius: inherit;
+      padding: 4px 10px;
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 11px;
+    }
+
+    .hero-title {
+      font-size: clamp(30px, 4vw, 40px);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #f97316, #facc15);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 36rem;
+    }
+
+    .hero-subtitle strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .btn {
+      border-radius: var(--radius-pill);
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform var(--transition-fast),
+                  box-shadow var(--transition-fast),
+                  background var(--transition-fast),
+                  border-color var(--transition-fast),
+                  color var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: radial-gradient(circle at 0 0, #fed7aa, #f97316);
+      color: #111827;
+      box-shadow: 0 16px 36px rgba(248, 163, 90, 0.55);
+      border-color: rgba(248, 163, 90, 0.8);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px) translateZ(0);
+      box-shadow: 0 22px 48px rgba(248, 163, 90, 0.8);
+      background: radial-gradient(circle at 0 0, #fed7aa, #fb923c);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.8);
+      border-color: rgba(148, 163, 184, 0.6);
+      color: var(--text-muted);
+    }
+
+    .btn-ghost span.icon {
+      font-size: 16px;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 0.95);
+      border-color: rgba(148, 163, 184, 0.9);
+      color: #e5e7eb;
+      transform: translateY(-1px);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+    }
+
+    .hero-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      padding: 3px 9px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .pill-accent {
+      color: #fed7aa;
+      border-color: rgba(248, 163, 90, 0.8);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.6));
+    }
+
+    /* Правая карточка */
+    .side-card {
+      border-radius: var(--radius-xl);
+      background:
+        radial-gradient(circle at 0 0, rgba(248, 250, 252, 0.06), transparent 70%),
+        linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.7));
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 14px 14px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .side-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .side-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--text-muted);
+    }
+
+    .side-tag {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #e5e7eb;
+    }
+
+    .side-main {
+      margin-bottom: 10px;
+    }
+
+    .side-number {
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .side-number span.small {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+
+    .side-text {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .side-text strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .side-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .side-footer-labels {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text-muted);
+    }
+
+    .badge.badge-hot {
+      border-color: rgba(248, 163, 90, 0.9);
+      background: rgba(248, 163, 90, 0.1);
+      color: #fed7aa;
+    }
+
+    .side-cta {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: right;
+    }
+
+    .side-cta span {
+      color: #f97316;
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      padding-top: 10px;
+      margin-top: 8px;
+      border-top: 1px solid rgba(148, 163, 184, 0.32);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: #e5e7eb;
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity var(--transition-fast);
+    }
+
+    footer a:hover {
+      opacity: 1;
+    }
+
+    /* Лёгкая анимация появления */
+    .fade-up {
+      animation: fadeUp 0.7s ease-out forwards;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .fade-up:nth-of-type(1) { animation-delay: 0.05s; }
+    .fade-up:nth-of-type(2) { animation-delay: 0.12s; }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Декоративные "свечения" -->
+    <div class="orb orb--top"></div>
+    <div class="orb orb--bottom"></div>
+
+    <header>
+      <div class="brand">
+        <div class="brand-logo">
+          <div class="brand-logo-inner">HH</div>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">Ha-Ha Hub</div>
+          <div class="brand-subtitle">office & it humor lab</div>
+        </div>
+      </div>
+      <nav>
+        <div class="chip">
+          <span class="chip-dot"></span>
+          Генератор шуток онлайн
+        </div>
+        <div class="chip">Без токсичности</div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Левая часть — герой-блок -->
+      <section class="hero fade-up">
+        <div class="hero-badge">
+          <div class="hero-badge-pill">новый формат юмора</div>
+          <span>шутки для офисной жизни, IT и не только</span>
+        </div>
+
+        <h1 class="hero-title">
+          Сделай <span>рабочий день</span> легче<br />
+          одним кликом по кнопке шуток.
+        </h1>
+
+        <p class="hero-subtitle">
+          Ha-Ha Hub — это коллекция аккуратно отобранных офисных шуток: 
+          <strong>дизайнеры, программисты, продавцы, HR, служба безопасности, руководители и лентяи</strong> —
+          достанется всем, но по-добрым правилам.
+        </p>
+
+        <div class="hero-actions">
+          <!-- КНОПКА ПЕРЕХОДА НА СТРАНИЦУ С ОФИСНЫМИ ШУТКАМИ -->
+          <!-- ЗДЕСЬ МЕНЯЕМ ССЫЛКУ, ЕСЛИ НУЖНО ДРУГОЕ НАЗВАНИЕ ФАЙЛА -->
+          <a href="jokes.html" class="btn btn-primary">
+            🔥 Шутки про офис
+          </a>
+
+          <!-- ВТОРАЯ КНОПКА (пока-заглушка категории) -->
+          <button class="btn btn-ghost" type="button">
+            <span class="icon">⚙️</span>
+            IT-шутки (скоро)
+          </button>
+        </div>
+
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <span>Без мата</span>
+          </div>
+          <div class="hero-meta-item">
+            <span>Подходит для рассылок и корпоративов</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Правая часть — карточка с "тизером" -->
+      <aside class="side-card fade-up">
+        <div class="side-header">
+          <div class="side-title">офисный радар настроения</div>
+          <div class="side-tag">live версия 1.0</div>
+        </div>
+
+        <div class="side-main">
+          <div class="side-number">
+            500+
+            <span class="small">шуток про офис</span>
+          </div>
+          <p class="side-text">
+            Открой <strong>отдельную страницу с офисным юмором</strong>,
+            кликая по кнопке «Шутки про офис».  
+            Идеально для:<br>
+            — паузы между митингами,<br>
+            — блоков «минутка юмора» в презентациях,<br>
+            — корпоративных каналов и рассылок.
+          </p>
+        </div>
+
+        <div class="side-footer">
+          <div class="side-footer-labels">
+            <span class="badge badge-hot">офис, IT, HR</span>
+            <span class="badge">без токсика</span>
+          </div>
+          <div class="side-cta">
+            нажми на <span>кнопку офиса</span><br />и выдохни на минуту
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <span>© Ha-Ha Hub. Сделано, чтобы рабочим было легче шутить.</span>
+      <span>
+        Категории:&nbsp;
+        <a href="#">офис</a> ·
+        <a href="#">IT</a> ·
+        <a href="#">руководители</a>
+      </span>
+    </footer>
+  </div>
+</body>
+</html>
